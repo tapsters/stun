@@ -282,12 +282,14 @@ process(State, Msg) when is_record(Msg, turn) ->
 process(State, _Msg) ->
     State.
 
-process(State, #stun{class = request, unsupported = [_|_]} = Msg, Secret) ->
-    Resp = prepare_response(State, Msg),
-    R = Resp#stun{class = error,
-		  'UNKNOWN-ATTRIBUTES' = Msg#stun.unsupported,
-		  'ERROR-CODE' = stun_codec:error(420)},
-    send(State, R, Secret);
+%% Turned off 420 Response to bypass Android bugs
+%% process(State, #stun{class = request, unsupported = [_|_]} = Msg, Secret) ->
+%%     Resp = prepare_response(State, Msg),
+%%     R = Resp#stun{class = error,
+%% 		  'UNKNOWN-ATTRIBUTES' = Msg#stun.unsupported,
+%% 		  'ERROR-CODE' = stun_codec:error(420)},
+%%     send(State, R, Secret);
+
 process(State, #stun{class = request,
 		     method = ?STUN_METHOD_BINDING} = Msg, Secret) ->
     Resp = prepare_response(State, Msg),
