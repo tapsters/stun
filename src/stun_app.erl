@@ -52,6 +52,7 @@ start(_StartType, _StartArgs) ->
     application:start(fast_tls),
     case stun_sup:start_link() of
         {ok, Pid} ->
+            stun_listener:add_listener(3478, udp, []),
             {ok, Pid};
         Error ->
             Error
