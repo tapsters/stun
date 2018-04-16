@@ -12,3 +12,4 @@ deps/
 *.eqc
 .eqc-info
 mix.lock
+sys.config
